@@ -53,7 +53,7 @@ write.csv(outliersNew, "outliersNew.csv") #Save dataset
 
 We have our outliers dataset. Now it is time to correct these rebel datapoints. Normally, geocoding algoriths fail to get the right coordinates because there more than one place in The Earth with the same name. It looks like this our case. In order to avoid this, we will try CartoDB's georeferencing tool. First, load and connect the outliersNew csv dataset. Then click on "the_geom" column to launch the georeferencing application and select the "City Names" option. And choose "town_name", "region" and "country" in those three tabs as shown in the following image.
 
-![cartodb georef](cartodb_georef.jpeg)
+![cartodb georef](cartodb.png)
 
 Sadly CartoDB has only georeferenced half of our points. The other half we will have to edit it manually. To export this new dataset, we have to split the_geom column into two separate ones, one from the latitude values and one for the longitude values. First, create a new number type column for latitude, and one for longitude. Second, with the CartoDB Editor enter the following SQL query:
 
@@ -122,14 +122,14 @@ ylim <- c(35.44, 44.18) #Set y/latitude limits
 map("world", col="#1ABC9C", fill=TRUE, bg="#F8F8FF", lwd=0.05, xlim=xlim, ylim=ylim) #Plot a Spain map
 
 symbols(firesFinal$lon, firesFinal$lat, circles=sqrt(firesFinal$num_fires),
-        add=TRUE, inches=0.15, fg="#F8F8FF", bg="#CA99CE") #Plot proportional circles
-        
+        add=TRUE, inches=0.15, fg="#F8F8FF", bg="#CA99CE") #Plot proportional circles      
 ```
 
-[spainmap.jpeg]
+![map of spain](spainmap.jpeg)
 
 Nice. But have a try with CartoDB. You will discover that CartoDB has more elegant ways to visualize your data. Once more, load and connect your dataset. Then, create a map. Now it is up to you how to display the data. As the dataset consists in fires and it is arranged in clear clusters, I seems a good idea to make a heatmap. So go to the wizard tab and select heatmap and change your color gradient with the CartoCSS editor according to your preferences. These are mines:
 
+```css
 #firesfinal
 {
   image-filters: colorize-alpha(#2fe2bf, #51e7c9, #74ecd4, #96f0df , #b9f5e9, #dbfaf4);
@@ -137,5 +137,6 @@ Nice. But have a try with CartoDB. You will discover that CartoDB has more elega
   marker-fill-opacity: 0.4*[value];
   marker-width: 35;
 }
+```
 
 The result is shown above. You can see clearly the two clusters I was talking about. One in Galicia, and the other in Asturias. Time to take decisions. Any comment?
